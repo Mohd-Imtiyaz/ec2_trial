@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Company{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    Company Administration
+  </div>
+</div>
+<ul class="nav nav-pills mb-3 pt-3" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="pills-company-tab" data-bs-toggle="pill" data-bs-target="#pills-company" type="button" role="tab" aria-controls="pills-company" aria-selected="true">Companies</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-create-comapny-tab" data-bs-toggle="pill" data-bs-target="#pills-create-comapny" type="button" role="tab" aria-controls="pills-create-comapny" aria-selected="false">Create Company</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-company-request-tab" data-bs-toggle="pill" data-bs-target="#pills-company-request" type="button" role="tab" aria-controls="pills-company-request" aria-selected="false">Company Request</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-company-users-tab" data-bs-toggle="pill" data-bs-target="#pills-company-users" type="button" role="tab" aria-controls="pills-company-users" aria-selected="false">Company Users</button>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-company" role="tabpanel" aria-labelledby="pills-company-tab">
+    <div class="table-responsive">
+      <h3>
+        <span>All Companies</span>
+        <input type="search" placeholder="Search..." class="form-control search-input" data-table="company-list" />
+      </h3>
+      <div class="table-responsive">
+
+      </div>
+      <table class="table company-list">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Company Name</th>
+            <th scope="col">Company Size</th>
+            <th scope="col">Company Location</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          {% for c in companies %}
+          <tr>
+            <td>{{c.id}}</td>
+            <td>{{c.company_name}}</td>
+            <td>{{c.company_size}}</td>
+            <td>{{c.company_location}}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td style="color: red;" colspan="4" class="text-center">No data Avaliable</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-create-comapny" role="tabpanel" aria-labelledby="pills-create-comapny-tab">
+    <div class="card">
+      <div class="card-body">
+        Fill the Form with Appropriate details
+      </div>
+    </div>
+
+    <form class="row g-3 pt-3 needs-validation" action="#" method="POST">
+      {% csrf_token %}
+      <div class="col-md-6 has-validation">
+        <label for="company_name" class="form-label">Company Name: </label>
+        {{form.company_name}}
+        <div id="companyname" class="form-text">This Company Name only will be reflected as a Group Name also.</div>
+        <div class="invalid-feedback">
+          {{form.company_name.errors}}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="founded_on" class="form-label">Founded: </label>
+        {{form.founded_on}}
+        <div class="invalid-feedback">
+          {{form.founded_on.errors}}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="about_company" class="form-label">About the Company: </label>
+        {{form.about_company}}
+        <div class="invalid-feedback">
+          {{form.about_company.errors}}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="company_location" class="form-label">Company Location: </label>
+        {{form.company_location}}
+        <div class="invalid-feedback">
+          {{form.company_location.errors}}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="website_url" class="form-label">Website URL: </label>
+        {{form.website_url}}
+        <div class="invalid-feedback">
+          {{form.website_url.errors}}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="company_size" class="form-label">Company Size: </label>
+        {{form.company_size}}
+        <div class="invalid-feedback">
+          {{form.company_size.errors}}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="Specialties" class="form-label">Specialities: </label>
+        {{form.specilities}}
+        <div class="invalid-feedback">
+          {{form.specilities.errors}}
+        </div>
+      </div>
+      <div class="col-md-12">
+        <label for="active" class="form-label">Company Status: </label>
+        {{form.active}}
+      </div>
+      <div class="col-12">
+        <button class="btn btn-primary" type="submit">Submit form</button>
+      </div>
+    </form>
+  </div>
+  <div class="tab-pane fade" id="pills-company-request" role="tabpanel" aria-labelledby="pills-company-request-tab">Company Request</div>
+  <div class="tab-pane fade" id="pills-company-users" role="tabpanel" aria-labelledby="pills-company-users-tab">
+    <div class="table-responsive">
+      <h3>
+        <span>All Companies Users</span>
+        <input type="search" placeholder="Search..." class="form-control search-input" data-table="company-users" />
+      </h3>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% load static %}
+{% block content %}
+<main class="pt-3">
+  <article class="container article">
+    <div class="container">
+      <div class="main-body">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="main-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+          </ol>
+        </nav>
+        <!-- Breadcrumb -->
+      </div>
+      
+      {% if user.is_superuser and user.is_staff %}
+      <div class="card">
+        <h5 class="card-header">{{user.get_full_name}}
+        </h5>
+        <div class="card-body">
+          <h6 class="card-title">Role:
+            {% if user.is_superuser %}
+              Administrator
+            {% elif user.is_staff %}
+              Staff
+            {% else %}
+              User
+            {% endif %}
+          </h6>
+          <h6>Email: {{user.email}}</h6>
+          <h6>Date Joined: {{user.date_joined}}</h6>
+          <a href="{% url 'password_change' %}" type="button" class="btn btn-primary btn-sm">Change Password</a>
+        </div>
+      </div>
+      {% else %}
+
+      <div class="card">
+        <h5 class="card-header">{{user.get_full_name}}
+        </h5>
+        <div class="card-body">
+          <h6 class="card-title">Role:
+            {% if user.is_superuser %}
+              Administrator
+            {% elif user.is_staff %}
+              Staff
+            {% else %}
+              User
+            {% endif %}
+          </h6>
+          <p class="card-text">{{profiles_about}}</p>
+          {% if profiles_industry is not None %}
+          <p class="card-text">{{profiles_industry}}</p>
+          {% endif %}
+          {% if profiles_country is not None %}
+          <p class="card-text">{{profiles_country}}</p>
+          {% endif %}
+          {% if profiles_city is not None %}
+          <p class="card-text">{{profiles_city}}</p>
+          {% endif %}
+          {% if profiles_linkedin_url is not None %}
+            <a href="{{profiles_linkedin_url}}" target="_blank" class="btn btn-outline-primary btn-sm">Visit Linkedin <i class="bi bi-arrow-up-right-square"></i></a>
+          {% endif %}
+          {% if profiles_github_url is not None %}
+          <a href="{{profiles_github_url}}" target="_blank" class="btn btn-outline-primary btn-sm">Visit GitHub <i class="bi bi-arrow-up-right-square"></i></a>
+          {% endif %}
+          {% if profiles_website_url is not None %}
+          <a href="{{profiles_website_url}}" target="_blank" class="btn btn-outline-primary btn-sm">Visit Website <i class="bi bi-arrow-up-right-square"></i></a>
+          {% endif %}
+          {% if profiles_address is not None %}
+          <p class="card-text">{{profiles_address}}</p>
+          {% endif %}
+          {% if profiles_birthday is not None %}
+          <p class="card-text">{{profiles_birthday}}</p>
+          {% endif %}
+          <a href="{% url 'password_change' %}" type="button" class="btn btn-primary btn-sm">Change Password</a>
+        </div>
+      </div>
+
+      <div class="pb-3"></div>
+
+      <div class="card">
+        <h5 class="card-header"><i class="bi bi-file-earmark-medical"></i> Projects
+          {% for p in project %}
+          <a href="" class="btn btn-outline-primary btn-sm">Add the Project</a>
+          {% empty %}
+          {% endfor %}
+        </h5>
+        <div class="card-body">
+          {% for p in project %}
+          <p class="mb-0">{{p.project_name}}</p>
+          <p class="mb-0">{{p.start_date}} - {{p.end_date}}</p>
+          
+          {% if p.project_url is not None %}
+          <a href="{{p.project_url}}" class="btn btn-sm btn-outline-dark">Visit Website <i class="bi bi-arrow-up-right-square"></i></a>
+          {% endif %}
+          <p class="mb-0">{{p.description}}</p>
+          <i class="bi bi-pencil-fill"></i>
+          <hr>
+          {% empty %}
+          <p>No Projects Found</p>
+          <a href="" class="btn btn-outline-primary btn-sm">Add the Project</a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="pb-3"></div>
+
+      <div class="card">
+        <h5 class="card-header"><i class="bi bi-patch-check"></i> License & Certification
+          {% for l in license %}
+          <a href="" class="btn btn-outline-primary btn-sm">Add License & Certification</a>
+          {% empty %}
+          {% endfor %}
+        </h5>
+        <div class="card-body">
+          {% for l in license %}
+          <p class="mb-0">{{l.name}}</p>
+          <p class="mb-0">{{l.issue_date}} - {% if l.expiry_date is not none %}{{l.expiry_date}}{% else %}No Expiry{% endif %}</p>
+          <p class="mb-0">{{l.issuing_organization}}</p>
+          <p class="mb-0">{{l.credential_id}}</p>
+          {% if l.credential_url is not None %}
+          <a href="{{l.credential_url}}" class="btn btn-sm btn-outline-dark">Visit Certificate <i class="bi bi-arrow-up-right-square"></i></a>
+          {% endif %}
+          
+          <hr>
+          {% empty %}
+          <p>No License & Certification Found</p>
+          <a href="" class="btn btn-outline-primary btn-sm">Add the License & Certification</a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="pb-3"></div>
+
+      <div class="card">
+        <h5 class="card-header"><i class="bi bi-patch-check"></i> Education
+          {% for e in edu %}
+          <a href="" class="btn btn-outline-primary btn-sm">Add Education</a>
+          {% empty %}
+          {% endfor %}
+        </h5>
+        <div class="card-body">
+          {% for e in edu %}
+          <p class="mb-0">{{e.institue_name}}</p>
+          <p class="mb-0">{{e.start_date}} - {{e.end_date}}</p>
+          <p class="mb-0">{{e.degree}}</p>
+          <p class="mb-0">{{e.feild_of_study}}</p>
+          <p class="mb-0">{{e.grade}}</p>
+          <p class="mb-0">{{e.activities_societies}}</p>
+          <p class="mb-0">{{e.description}}</p>
+          {% empty %}
+          <p>No Education Data Found</p>
+          <a href="" class="btn btn-outline-primary btn-sm">Add the Education Details</a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="pb-3"></div>
+      
+      <div class="card">
+        <h5 class="card-header"><i class="bi bi-patch-check"></i> Skills 
+          {% for s in skillsets %}
+          <a href="" class="btn btn-outline-primary btn-sm">Add Skill</a>{% empty %}
+          {% endfor %}
+        </h5>
+        <div class="card-body">
+          {% for s in skillsets %}
+          {% for sa in s.skills.all %}
+          {{sa}}
+          <a href=""><i class="bi bi-pencil-fill"></i></a>
+          <a href=""><i class="bi bi-trash-fill"></i></a>
+          {% endfor %}
+          {% empty %}
+          <p>No Skill Sets Found</p>
+          <a href="" class="btn btn-outline-primary btn-sm">Add the Skills</a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="pb-3"></div>
+      {% endif %}
+    </div>
+    </section>
+  </article>
+</main>
+{% endblock %}

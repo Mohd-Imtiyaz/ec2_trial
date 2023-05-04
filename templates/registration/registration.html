@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}User Registration{% endblock %}
+{% load static %}
+{% block content %}
+<div class="card border border-primary border-bottom">
+  <div class="card-body">
+    <h4>User Registration</h4>
+  </div>
+</div>
+<div class="pt-3"></div>
+{% if perms.auth.add_user or user.is_superuser %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+  {{message}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+{% if form.errors %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  {% for field in form %}
+  {% if field.errors %}
+  <li type="1">{{ field.label }}: {{ field.errors|striptags }}</li>
+  {% endif %}
+  {% endfor %}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+<form action="{% url 'register' %}" method="POST" class="needs-validation" novalidate>
+  {% csrf_token %}
+  <div class="row pb-2">
+    <div class="col form-group">
+      <label for="username">Username</label>
+      {{form.username}}
+    </div>
+    <div class="col form-group">
+      <label for="email">Email address</label>
+      {{form.email}}
+    </div>
+  </div>
+  <div class="row pb-2">
+    <div class="col form-group">
+      <label for="first_name">First Name</label>
+      {{form.first_name}}
+    </div>
+    <div class="col form-group">
+      <label for="last_name">Last Name</label>
+      {{form.last_name}}
+    </div>
+  </div>
+  <div class="row">
+    <div class=" col form-group mb-4">
+      <label for="password1">Password</label>
+      {{form.password1}}
+    </div>
+    <div class="col form-group">
+      <label for="password2">Re-type Password</label>
+      {{form.password2}}
+    </div>
+  </div>
+  <button class="btn btn-outline-primary btn-block btn-lg" type="submit" name="Register" id="Register">Register</button>
+</form>
+{% endif %}
+{% endblock %}
